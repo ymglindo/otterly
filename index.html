@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otterly Lost - Aventura Mágica no Minecraft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           VARIÁVEIS CSS - TEMA AQUÁTICO
+           ============================================ */
+        :root {
+            /* Cores Principais - Tema Aquático */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%);
+            --secondary-gradient: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --aquatic-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --ocean-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            
+            /* Cores Sólidas - Aquáticas */
+            --color-primary: #4facfe;
+            --color-secondary: #00c9ff;
+            --color-accent: #92fe9d;
+            --color-teal: #00d2ff;
+            --color-blue: #3a7bd5;
+            --color-deep-blue: #1e3c72;
+            --color-text-dark: #0a2540;
+            --color-text-light: #2d5a7a;
+            --color-white: #ffffff;
+            --color-bg: #e0f2f7;
+            
+            /* Efeitos Glassmorphism Aquático - Mais Visível */
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(79, 172, 254, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(79, 172, 254, 0.4);
+            
+            /* Sombras */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+            
+            /* Espaçamentos */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --spacing-2xl: 6rem;
+            
+            /* Bordas */
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --radius-xl: 50px;
+            
+            /* Transições */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        /* ============================================
+           RESET E CONFIGURAÇÕES GLOBAIS
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%),
+                        url('https://image.pollinations.ai/prompt/underwater%20ocean%20blue%20aquatic%20background%20abstract%20waves?width=1920&height=1080&nologo=true') center/cover no-repeat;
+            background-attachment: fixed;
+            color: var(--color-text-dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 50%, rgba(79, 172, 254, 0.7) 100%);
+            z-index: -1;
+        }
+
+        /* ============================================
+           TIPOGRAFIA
+           ============================================ */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        p {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: var(--color-text-dark);
+            font-weight: 500;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-normal);
+        }
+
+        /* ============================================
+           CONTAINER PRINCIPAL - CENTRALIZAÇÃO PERFEITA
+           ============================================ */
+        .main-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container-wide {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ============================================
+           HEADER / NAVBAR
+           ============================================ */
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: var(--spacing-sm) 0;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(79, 172, 254, 0.3);
+            box-shadow: 0 2px 20px rgba(79, 172, 254, 0.2);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: var(--spacing-md);
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            color: var(--color-text-dark);
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            position: relative;
+            transition: var(--transition-normal);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: var(--transition-normal);
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-menu a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            padding: 2px;
+            border-radius: 4px;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            filter: grayscale(0%);
+            transform: scale(1.15);
+            opacity: 1;
+        }
+        
+        .lang-btn.active {
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.4);
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* ============================================
+           HERO SECTION - MODIFICADO (SEM IMAGEM)
+           ============================================ */
+        .hero {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: calc(var(--spacing-2xl) + 60px) var(--spacing-md) var(--spacing-2xl);
+            position: relative;
+            /* IMAGEM REMOVIDA - APENAS GRADIENTE */
+            background: var(--primary-gradient); 
+            background-attachment: fixed;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Ajuste para o gradiente ficar bonito sem a foto */
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .hero h1 {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-white); /* Cor ajustada para melhor contraste no fundo sólido */
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-white); /* Cor ajustada */
+            line-height: 1.8;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .join-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: rgba(255, 255, 255, 0.2); /* Mais transparente */
+            backdrop-filter: blur(20px);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: var(--glass-shadow);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+            color: var(--color-white);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        /* ============================================
+           ESTATÍSTICAS
+           ============================================ */
+        .stats-section {
+            width: 100%;
+            padding: var(--spacing-xl) 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            transition: var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            font-size: clamp(0.875rem, 1.5vw, 1rem);
+            color: var(--color-text-dark);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           SEÇÃO SOBRE
+           ============================================ */
+        .about-section {
+            width: 100%;
+            padding: var(--spacing-2xl) 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-content {
+            max-width: 800px;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--glass-shadow);
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            margin-bottom: var(--spacing-md);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .about-content h3 {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-dark);
+        }
+
+        .about-content p {
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.8;
+        }
+
+        .about-list {
+            list-style: none;
+            margin: var(--spacing-md) 0;
+        }
+
+        .about-list li {
+            padding: var(--spacing-xs) 0;
+            padding-left: var(--spacing-md);
+            position: relative;
+            line-height: 1.8;
+            color: var(--color-text-dark);
+            font-weight: 500;
+        }
+
+        .about-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color-white);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* ============================================
+           BOTÕES - CALL TO ACTION
+           ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: var(--radius-xl);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--color-white);
+            color: var(--color-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            background: var(--color-bg);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           SEÇÕES DE RECURSOS
+           ============================================ */
+        .features-section {
+            width: 100%;
+            padding: var(--spacing-2xl) 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-normal);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition-slow);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            display: block;
+        }
+
+        .feature-card h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-dark);
+        }
+
+        .feature-card p {
+            color: var(--color-text-dark);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           GALERIA
+           ============================================ */
+        .gallery-section {
+            width: 100%;
+            padding: var(--spacing-2xl) 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+            opacity: 0;
+            transition: var(--transition-normal);
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* ============================================
+           DOWNLOAD SECTION - CENTRALIZADO E DESTACADO
+           ============================================ */
+        .download-section {
+            width: 100%;
+            padding: var(--spacing-2xl) 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(79, 172, 254, 0.2) 100%);
+            position: relative;
+        }
+
+        /* Imagens nas seções */
+        .section-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) auto;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--glass-border);
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-md) auto;
+            display: block;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--glass-border);
+        }
+
+        .download-hero {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .download-hero h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--spacing-sm);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .download-hero p {
+            font-size: clamp(1.125rem, 2vw, 1.25rem);
+            color: var(--color-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download-box {
+            max-width: 700px;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 3px solid var(--glass-border);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 60px rgba(79, 172, 254, 0.5);
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .download-box-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-box h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-dark);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .download-box p {
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-dark);
+            line-height: 1.8;
+            font-size: clamp(1rem, 1.5vw, 1.125rem);
+            font-weight: 500;
+        }
+
+        .download-features {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .download-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-text-light);
+            font-size: 0.875rem;
+        }
+
+        .btn-download {
+            background: var(--primary-gradient);
+            color: var(--color-white);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            width: 100%;
+            max-width: 500px;
+            margin: var(--spacing-md) auto;
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            padding: 1.25rem 2.5rem;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+            background: var(--color-accent);
+        }
+
+        .download-info {
+            font-size: 0.875rem;
+            color: var(--color-text-dark);
+            font-weight: 500;
+            margin-top: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-stat {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .download-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-white);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .download-stat-label {
+            font-size: 0.75rem;
+            color: var(--color-text-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-md);
+            color: var(--color-text-light);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--color-text-dark);
+            font-weight: 600;
+            transition: var(--transition-normal);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-copyright {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        /* ============================================
+           ANIMAÇÕES
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Classes de animação para scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVIDADE
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: calc(var(--spacing-xl) + 60px) var(--spacing-md) var(--spacing-xl);
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+
+            .nav-menu {
+                gap: var(--spacing-sm);
+            }
+            
+            .nav-wrapper {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
+            }
+
+            .about-content {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .download-box {
+                padding: var(--spacing-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <nav class="navbar">
+            <div class="logo">
+                🦦 Otterly Lost
+            </div>
+            
+            <div class="nav-wrapper">
+                <ul class="nav-menu">
+                    <li><a href="#about" data-key="nav-about">Sobre</a></li>
+                    <li><a href="#features" data-key="nav-features">Recursos</a></li>
+                    <li><a href="#gallery" data-key="nav-gallery">Galeria</a></li>
+                    <li><a href="#download" data-key="nav-download">Download</a></li>
+                </ul>
+                
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLanguage('pt')" title="Português">
+                        🇧🇷
+                    </button>
+                    <button class="lang-btn" onclick="setLanguage('en')" title="English">
+                        🇺🇸
+                    </button>
+                </div>
+            </div>
+    </nav>
+    </header>
+
+    <div class="main-wrapper">
+        <section class="hero">
+            <div class="hero-content fade-in">
+                <div class="join-badge" data-key="hero-join">
+                    🌊 Entre para +2392 jogadores conectados!
+                </div>
+                <h1>OTTERLY LOST</h1>
+                <p class="hero-subtitle" data-key="hero-sub">
+                    Mergulhe na melhor experiência aquática do Minecraft com mods essenciais e uma comunidade incrível!
+                </p>
+                <a href="#download" class="btn btn-primary" data-key="hero-btn">
+                    Download Otterly Lost Modpack
+                </a>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container-wide">
+                <img src="https://image.pollinations.ai/prompt/cute%20minecraft%20otters%20swimming%20underwater%20ocean%20blue%20water%20adorable%20friendly%20happy?width=1200&height=400&nologo=true" alt="Lontras Fofas Aquáticas" class="section-image fade-in" style="max-width: 900px; height: 300px; margin-bottom: var(--spacing-lg);">
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-number">+2392</div>
+                        <div class="stat-label" data-key="stat-connected">JOGADORES CONECTADOS</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-number">+6495</div>
+                        <div class="stat-label" data-key="stat-registered">JOGADORES REGISTRADOS</div>
+                </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-number">+4918</div>
+                        <div class="stat-label" data-key="stat-record">RECORDE DE JOGADORES</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section id="about" class="about-section">
+        <div class="container">
+                <div class="about-content fade-in">
+                    <h2 data-key="about-title">Sobre Otterly Lost</h2>
+                    
+                    <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20otters%20swimming%20underwater%20ocean%20blue%20water%20happy%20friendly%20smiling?width=800&height=500&nologo=true" alt="Lontras Fofas Aquáticas" class="about-image fade-in">
+                    
+                    <h3 data-key="about-h3-1">🦦 Otterly Lost – O Guardião das Profundezas</h3>
+                    <p data-key="about-p1">
+                        <strong>Origem:</strong> Uma entidade mágica aquática descoberta nas profundezas oceânicas, resultante da fusão de uma lontra adorável (otter), a paz das águas (ly), e a essência de uma peça perdida no oceano (lost).
+                    </p>
+                    
+                    <p data-key="about-p2">
+                        <strong>Forma:</strong> Uma criatura aquática fofa com olhos brilhantes que brilham em tons de azul oceânico, nadadeiras delicadas que brilham como pérolas, e uma coroa de corais mágicos.
+                    </p>
+                    
+                    <p><strong data-key="about-powers">Poderes:</strong></p>
+                    <ul class="about-list">
+                        <li data-key="about-li-1">Invoca cardumes de lontras aquáticas amigáveis que trazem alegria e companheirismo nas profundezas.</li>
+                        <li data-key="about-li-2">Pode transformar blocos subaquáticos, criando corais decorativos e estruturas mágicas.</li>
+                        <li data-key="about-li-3">Controla "Harmonia Aquática", um efeito que torna o ambiente subaquático mais belo e acolhedor.</li>
+                    </ul>
+                    
+                    <p><strong data-key="about-drops">Drops raros:</strong></p>
+                    <ul class="about-list">
+                        <li data-key="about-li-4">💠 Coração de Otterly Lost – usado para criar equipamentos aquáticos lendários.</li>
+                        <li data-key="about-li-5">🌊 Essência Oceânica – ingrediente para poções aquáticas especiais.</li>
+                    </ul>
+                    
+                    <h3 data-key="about-role">⚔️ Função no mod</h3>
+                    <ul class="about-list">
+                        <li data-key="about-li-6">É um boss final de uma dimensão aquática mágica (como uma mistura de Ocean + End).</li>
+                        <li data-key="about-li-7">A luta teria fases: primeiro na superfície, depois nas profundezas, e finalmente se fundindo com o oceano.</li>
+                        <li data-key="about-li-8">Derrotar Otterly Lost desbloqueia acesso a novas ferramentas/armaduras aquáticas únicas do mod.</li>
+                        <li data-key="about-li-9">Servidor online e capacidade de jogar com seus amigos em multiplayer aquático.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <div class="container-wide">
+                <h2 class="section-title fade-in" data-key="features-title">Mods Essenciais Aquáticos</h2>
+                <p style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-dark); font-weight: 600;" class="fade-in" data-key="features-desc">
+                    Uma seleção cuidadosa dos melhores mods aquáticos para aprimorar sua experiência no Minecraft.
+                </p>
+                
+                <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20underwater%20world%20ocean%20aquatic%20blue%20water%20beautiful%20landscape%20happy%20friendly%20colorful?width=1200&height=500&nologo=true" alt="Mundo Aquático Fofo" class="section-image fade-in">
+                <div class="features-grid">
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">🦦</span>
+                        <h3 data-key="feat-1-title">Lontras Aquáticas</h3>
+                        <p data-key="feat-1-desc">Nade com lontras adoráveis que seguram pedrinhas, dormem boiando e te seguem nas profundezas oceânicas!</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">🌊</span>
+                        <h3 data-key="feat-2-title">Biomas Aquáticos</h3>
+                        <p data-key="feat-2-desc">Explore recifes de coral, oceanos profundos, lagos cristalinos e cavernas subaquáticas mágicas.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">🏖️</span>
+                        <h3 data-key="feat-3-title">Bases Subaquáticas</h3>
+                        <p data-key="feat-3-desc">Construa bases incríveis debaixo d'água com vidro, corais decorativos e iluminação aquática especial.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">🐠</span>
+                        <h3 data-key="feat-4-title">Vida Marinha</h3>
+                        <p data-key="feat-4-desc">Descubra peixes exóticos, criaturas marinhas únicas e ecossistemas aquáticos vibrantes.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">⚓</span>
+                        <h3 data-key="feat-5-title">Exploração Oceânica</h3>
+                        <p data-key="feat-5-desc">Navegue por oceanos vastos, descubra tesouros submersos e explore naufrágios misteriosos.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <span class="feature-icon">💎</span>
+                        <h3 data-key="feat-6-title">Recursos Aquáticos</h3>
+                        <p data-key="feat-6-desc">Colete recursos únicos do oceano, minerais subaquáticos e materiais especiais aquáticos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery-section">
+            <div class="container-wide">
+                <h2 class="section-title fade-in" data-key="gallery-title">Galeria Aquática</h2>
+                <p style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-dark); font-weight: 600;" class="fade-in" data-key="gallery-desc">
+                    Explore o mundo aquático do Otterly Lost com screenshots incríveis e fofos
+                </p>
+                <div class="gallery">
+                    <div class="gallery-item fade-in">
+                        <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20underwater%20ocean%20aquatic%20world%20beautiful%20blue%20water%20coral%20reef%20fish%20happy%20colorful?width=800&height=600&nologo=true" alt="Mundo Aquático Fofo">
+                    </div>
+                    <div class="gallery-item fade-in">
+                        <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20otters%20swimming%20underwater%20ocean%20blue%20water%20happy%20friendly%20smiling%20playing?width=800&height=600&nologo=true" alt="Lontras Fofas Aquáticas">
+                    </div>
+                    <div class="gallery-item fade-in">
+                        <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20underwater%20base%20building%20ocean%20aquatic%20blue%20water%20glass%20cozy%20beautiful?width=800&height=600&nologo=true" alt="Base Subaquática Fofa">
+                    </div>
+                    <div class="gallery-item fade-in">
+                        <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20underwater%20cave%20ocean%20aquatic%20blue%20water%20treasure%20coral%20magical%20colorful?width=800&height=600&nologo=true" alt="Caverna Subaquática Fofa">
+                    </div>
+                </div>
+        </div>
+    </section>
+
+        <section id="download" class="download-section">
+        <div class="container">
+                <div class="download-hero fade-in">
+                    <h2 data-key="dl-title">Baixe Agora</h2>
+                    <p data-key="dl-subtitle">Instale o Otterly Lost Modpack e mergulhe na sua aventura aquática no Minecraft hoje mesmo!</p>
+                </div>
+                
+                <img src="https://image.pollinations.ai/prompt/cute%20adorable%20minecraft%20underwater%20ocean%20aquatic%20world%20beautiful%20blue%20water%20epic%20view%20happy%20colorful%20friendly?width=1200&height=500&nologo=true" alt="Mundo Aquático Fofo" class="section-image fade-in">
+                
+                <div class="download-box fade-in">
+                    <div class="download-box-content">
+                        <h3>Otterly Lost Modpack</h3>
+                        <p data-key="dl-box-desc">Uma experiência completa aquática de Minecraft com mods cuidadosamente selecionados para explorar os oceanos e mergulhar em aventuras subaquáticas!</p>
+                        
+                        <div class="download-features">
+                            <div class="download-feature">
+                                <span>✅</span>
+                                <span data-key="dl-feat-1">Instalação Automática</span>
+                            </div>
+                            <div class="download-feature">
+                                <span>✅</span>
+                                <span data-key="dl-feat-2">100% Seguro</span>
+                            </div>
+                            <div class="download-feature">
+                                <span>✅</span>
+                                <span data-key="dl-feat-3">Atualizações Gratuitas</span>
+                            </div>
+                        </div>
+                        
+                        <a href="OtterlyLost_Setup.zip" class="btn btn-download" data-key="dl-btn">
+                            ⬇️ Download Otterly Lost Modpack
+                        </a>
+                        
+                        <div class="download-info">
+                            <p><strong data-key="dl-info-v">Versão:</strong> 1.2.0 | <strong data-key="dl-info-p">Plataforma:</strong> Windows 10/11 | <strong data-key="dl-info-s">Tamanho:</strong> ~500 MB</p>
+                            <p style="margin-top: var(--spacing-xs); font-size: 0.75rem;" data-key="dl-req">Requer Minecraft Java Edition 1.20.1 ou superior</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="download-stats fade-in">
+                    <div class="download-stat">
+                        <div class="download-stat-number">500+</div>
+                        <div class="download-stat-label" data-key="stat-mods">Mods Incluídos</div>
+                    </div>
+                    <div class="download-stat">
+                        <div class="download-stat-number">1.2.0</div>
+                        <div class="download-stat-label" data-key="stat-ver">Versão Atual</div>
+                    </div>
+                    <div class="download-stat">
+                        <div class="download-stat-number">100%</div>
+                        <div class="download-stat-label" data-key="stat-free">Gratuito</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#about" data-key="nav-about">Sobre</a>
+                <a href="#features" data-key="nav-features">Recursos</a>
+                <a href="#gallery" data-key="nav-gallery">Galeria</a>
+                <a href="#download" data-key="nav-download">Download</a>
+            </div>
+            <div class="footer-copyright" data-key="footer-copy">
+                Copyright © 2024 Otterly Lost - Todos os direitos reservados. Não somos afiliados à Mojang AB.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // === ANIMAÇÕES ===
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        window.addEventListener('load', () => {
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.classList.add('visible');
+            }
+        });
+
+        // === SISTEMA DE TRADUÇÃO ===
+        const translations = {
+            "pt": {
+                "nav-about": "Sobre",
+                "nav-features": "Recursos",
+                "nav-gallery": "Galeria",
+                "nav-download": "Download",
+                "hero-join": "🌊 Entre para +2392 jogadores conectados!",
+                "hero-sub": "Mergulhe na melhor experiência aquática do Minecraft com mods essenciais e uma comunidade incrível!",
+                "hero-btn": "Download Otterly Lost Modpack",
+                "stat-connected": "JOGADORES CONECTADOS",
+                "stat-registered": "JOGADORES REGISTRADOS",
+                "stat-record": "RECORDE DE JOGADORES",
+                "about-title": "Sobre Otterly Lost",
+                "about-h3-1": "🦦 Otterly Lost – O Guardião das Profundezas",
+                "about-p1": "<strong>Origem:</strong> Uma entidade mágica aquática descoberta nas profundezas oceânicas, resultante da fusão de uma lontra adorável (otter), a paz das águas (ly), e a essência de uma peça perdida no oceano (lost).",
+                "about-p2": "<strong>Forma:</strong> Uma criatura aquática fofa com olhos brilhantes que brilham em tons de azul oceânico, nadadeiras delicadas que brilham como pérolas, e uma coroa de corais mágicos.",
+                "about-powers": "Poderes:",
+                "about-li-1": "Invoca cardumes de lontras aquáticas amigáveis que trazem alegria e companheirismo nas profundezas.",
+                "about-li-2": "Pode transformar blocos subaquáticos, criando corais decorativos e estruturas mágicas.",
+                "about-li-3": "Controla 'Harmonia Aquática', um efeito que torna o ambiente subaquático mais belo e acolhedor.",
+                "about-drops": "Drops raros:",
+                "about-li-4": "💠 Coração de Otterly Lost – usado para criar equipamentos aquáticos lendários.",
+                "about-li-5": "🌊 Essência Oceânica – ingrediente para poções aquáticas especiais.",
+                "about-role": "⚔️ Função no mod",
+                "about-li-6": "É um boss final de uma dimensão aquática mágica (como uma mistura de Ocean + End).",
+                "about-li-7": "A luta teria fases: primeiro na superfície, depois nas profundezas, e finalmente se fundindo com o oceano.",
+                "about-li-8": "Derrotar Otterly Lost desbloqueia acesso a novas ferramentas/armaduras aquáticas únicas do mod.",
+                "about-li-9": "Servidor online e capacidade de jogar com seus amigos em multiplayer aquático.",
+                "features-title": "Mods Essenciais Aquáticos",
+                "features-desc": "Uma seleção cuidadosa dos melhores mods aquáticos para aprimorar sua experiência no Minecraft.",
+                "feat-1-title": "Lontras Aquáticas",
+                "feat-1-desc": "Nade com lontras adoráveis que seguram pedrinhas, dormem boiando e te seguem nas profundezas oceânicas!",
+                "feat-2-title": "Biomas Aquáticos",
+                "feat-2-desc": "Explore recifes de coral, oceanos profundos, lagos cristalinos e cavernas subaquáticas mágicas.",
+                "feat-3-title": "Bases Subaquáticas",
+                "feat-3-desc": "Construa bases incríveis debaixo d'água com vidro, corais decorativos e iluminação aquática especial.",
+                "feat-4-title": "Vida Marinha",
+                "feat-4-desc": "Descubra peixes exóticos, criaturas marinhas únicas e ecossistemas aquáticos vibrantes.",
+                "feat-5-title": "Exploração Oceânica",
+                "feat-5-desc": "Navegue por oceanos vastos, descubra tesouros submersos e explore naufrágios misteriosos.",
+                "feat-6-title": "Recursos Aquáticos",
+                "feat-6-desc": "Colete recursos únicos do oceano, minerais subaquáticos e materiais especiais aquáticos.",
+                "gallery-title": "Galeria Aquática",
+                "gallery-desc": "Explore o mundo aquático do Otterly Lost com screenshots incríveis e fofos",
+                "dl-title": "Baixe Agora",
+                "dl-subtitle": "Instale o Otterly Lost Modpack e mergulhe na sua aventura aquática no Minecraft hoje mesmo!",
+                "dl-box-desc": "Uma experiência completa aquática de Minecraft com mods cuidadosamente selecionados para explorar os oceanos e mergulhar em aventuras subaquáticas!",
+                "dl-feat-1": "Instalação Automática",
+                "dl-feat-2": "100% Seguro",
+                "dl-feat-3": "Atualizações Gratuitas",
+                "dl-btn": "⬇️ Download Otterly Lost Modpack",
+                "dl-info-v": "Versão:",
+                "dl-info-p": "Plataforma:",
+                "dl-info-s": "Tamanho:",
+                "dl-req": "Requer Minecraft Java Edition 1.20.1 ou superior",
+                "stat-mods": "Mods Incluídos",
+                "stat-ver": "Versão Atual",
+                "stat-free": "Gratuito",
+                "footer-copy": "Copyright © 2024 Otterly Lost - Todos os direitos reservados. Não somos afiliados à Mojang AB."
+            },
+            "en": {
+                "nav-about": "About",
+                "nav-features": "Features",
+                "nav-gallery": "Gallery",
+                "nav-download": "Download",
+                "hero-join": "🌊 Join +2392 connected players!",
+                "hero-sub": "Dive into the best aquatic Minecraft experience with essential mods and an amazing community!",
+                "hero-btn": "Download Otterly Lost Modpack",
+                "stat-connected": "ONLINE PLAYERS",
+                "stat-registered": "REGISTERED PLAYERS",
+                "stat-record": "PLAYER RECORD",
+                "about-title": "About Otterly Lost",
+                "about-h3-1": "🦦 Otterly Lost – The Guardian of the Depths",
+                "about-p1": "<strong>Origin:</strong> A magical aquatic entity discovered in the ocean depths, resulting from the fusion of an adorable otter, the peace of the waters (ly), and the essence of a piece lost in the ocean.",
+                "about-p2": "<strong>Form:</strong> A cute aquatic creature with bright eyes shining in ocean blue tones, delicate fins that glow like pearls, and a crown of magical corals.",
+                "about-powers": "Powers:",
+                "about-li-1": "Summons schools of friendly aquatic otters that bring joy and companionship in the depths.",
+                "about-li-2": "Can transform underwater blocks, creating decorative corals and magical structures.",
+                "about-li-3": "Controls 'Aquatic Harmony', an effect that makes the underwater environment more beautiful and welcoming.",
+                "about-drops": "Rare drops:",
+                "about-li-4": "💠 Heart of Otterly Lost – used to craft legendary aquatic gear.",
+                "about-li-5": "🌊 Ocean Essence – ingredient for special aquatic potions.",
+                "about-role": "⚔️ Mod Role",
+                "about-li-6": "It is a final boss of a magical aquatic dimension (like a mix of Ocean + End).",
+                "about-li-7": "The fight has phases: first on the surface, then in the depths, and finally merging with the ocean.",
+                "about-li-8": "Defeating Otterly Lost unlocks access to new unique aquatic tools/armor from the mod.",
+                "about-li-9": "Online server and ability to play with your friends in aquatic multiplayer.",
+                "features-title": "Essential Aquatic Mods",
+                "features-desc": "A careful selection of the best aquatic mods to enhance your Minecraft experience.",
+                "feat-1-title": "Aquatic Otters",
+                "feat-1-desc": "Swim with adorable otters that hold little rocks, sleep floating, and follow you into the ocean depths!",
+                "feat-2-title": "Aquatic Biomes",
+                "feat-2-desc": "Explore coral reefs, deep oceans, crystal clear lakes, and magical underwater caves.",
+                "feat-3-title": "Underwater Bases",
+                "feat-3-desc": "Build incredible bases underwater with glass, decorative corals, and special aquatic lighting.",
+                "feat-4-title": "Marine Life",
+                "feat-4-desc": "Discover exotic fish, unique sea creatures, and vibrant aquatic ecosystems.",
+                "feat-5-title": "Ocean Exploration",
+                "feat-5-desc": "Sail across vast oceans, discover sunken treasures, and explore mysterious shipwrecks.",
+                "feat-6-title": "Aquatic Resources",
+                "feat-6-desc": "Collect unique resources from the ocean, underwater minerals, and special aquatic materials.",
+                "gallery-title": "Aquatic Gallery",
+                "gallery-desc": "Explore the aquatic world of Otterly Lost with amazing and cute screenshots",
+                "dl-title": "Download Now",
+                "dl-subtitle": "Install the Otterly Lost Modpack and dive into your aquatic Minecraft adventure today!",
+                "dl-box-desc": "A complete Minecraft aquatic experience with mods carefully selected to explore the oceans and dive into underwater adventures!",
+                "dl-feat-1": "Automatic Installation",
+                "dl-feat-2": "100% Safe",
+                "dl-feat-3": "Free Updates",
+                "dl-btn": "⬇️ Download Otterly Lost Modpack",
+                "dl-info-v": "Version:",
+                "dl-info-p": "Platform:",
+                "dl-info-s": "Size:",
+                "dl-req": "Requires Minecraft Java Edition 1.20.1 or higher",
+                "stat-mods": "Mods Included",
+                "stat-ver": "Current Version",
+                "stat-free": "Free",
+                "footer-copy": "Copyright © 2024 Otterly Lost - All rights reserved. Not affiliated with Mojang AB."
+            }
+        };
+
+        function setLanguage(lang) {
+            // Atualiza botões
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
+
+            // Atualiza textos
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+    </script>
+</body>
+</html>
